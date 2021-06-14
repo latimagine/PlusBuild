@@ -241,6 +241,7 @@ IF(PLUS_USE_PHILIPS_3D_ULTRASOUND)
 ENDIF()
 OPTION(PLUS_USE_CLARIUS "Provide support for Clarius Ultrasound devices" OFF)
 OPTION(PLUS_USE_ANDOR_CAMERA "Provide support for the Andor cameras capture stream" OFF)
+OPTION(PLUS_USE_MODUS_SCRAPER "Provide support for API scraping the Synaptive Modus developer website" OFF)
 
 # ---------- Tracking Hardware ------------
 OPTION(PLUS_USE_OPTITRACK "Provide support for the OptiTrack tracking system" OFF)
