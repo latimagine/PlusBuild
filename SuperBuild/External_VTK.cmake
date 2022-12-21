@@ -110,7 +110,7 @@ ELSE()
     ENDIF()
   ENDIF()
 
-  IF(VTK_VERSION VERSION_GREATER_EQUAL 9.0.0)
+  IF(PLUSBUILD_VTK_VERSION VERSION_GREATER_EQUAL 9.0.0)
     # VTK 9+ no longer respects incoming output directories, so don't set them
   ELSE()
     LIST(APPEND PLUS_VTK_OPTIONS -DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
@@ -151,4 +151,15 @@ ELSE()
     )
 
   SET(VTK_BUILD_DEPENDENCY_TARGET vtk CACHE INTERNAL "The name of the target to list as a dependency to ensure build order correctness.")
+  IF(PLUSBUILD_VTK_VERSION VERSION_GREATER_EQUAL 9.0.0)
+    # VTK 9+ no longer respects incoming output directories, so copy manually
+    IF (NOT CMAKE_BUILD_TYPE)
+      MESSAGE(FATAL_ERROR "CMAKE_BUILD_TYPE is needed for dirty VTK>9 install patch")
+    ENDIF()
+    add_custom_target(
+      vtk_install ALL
+      COMMAND ${CMAKE_COMMAND} -D CMAKE_SHARED_LIBRARY_SUFFIX=${CMAKE_SHARED_LIBRARY_SUFFIX} -D CMAKE_IMPORT_LIBRARY_SUFFIX=${CMAKE_IMPORT_LIBRARY_SUFFIX} -D VTK_INSTALL_DIR="${PLUS_VTK_INSTALL_DIR}" -D VTK_RUNTIME_OUTPUT_DIRECTORY="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE}" -P vtk_install_script.cmake
+      DEPENDS vtk
+      WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
+  ENDIF()
 ENDIF()
