@@ -866,6 +866,10 @@ IF(NOT VTK_DIR)
   # VTK_DIR is not supplied, so it is built inside Plus, therefore we need to specify dependencies to make sure it is built early enough
   SET(VTK_DEPENDENCIES)
   LIST(APPEND PlusLib_DEPENDENCIES vtk)
+
+  IF(TARGET vtk_install)
+    LIST(APPEND PlusLib_DEPENDENCIES vtk_install)
+  ENDIF()
 ENDIF()
 
 IF(NOT ITK_DIR)
