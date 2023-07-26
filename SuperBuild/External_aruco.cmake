@@ -1,5 +1,5 @@
 IF(aruco_DIR)
-  FIND_PACKAGE(aruco 2.0.19 REQUIRED NO_MODULE)
+  FIND_PACKAGE(aruco REQUIRED NO_MODULE)
 
   MESSAGE(STATUS "Using aruco available at: ${aruco_DIR}")
 
