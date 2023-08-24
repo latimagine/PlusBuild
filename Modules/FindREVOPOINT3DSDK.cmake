@@ -17,7 +17,7 @@ SET(_revopoint3d_libs 3DCamera HandEye)
 SET(REVOPOINT3DSDK_LIBRARIES)
 
 # Find include directory
-FIND_FILE(3D_CAM_HEADER 3DCamera.hpp PATHS ${REVOPOINT3DSDK_ROOT} PATH_SUFFIXES "inc")
+FIND_FILE(3D_CAM_HEADER 3DCamera.hpp PATHS ${REVOPOINT3DSDK_ROOT} PATH_SUFFIXES "inc" "include")
 IF(NOT 3D_CAM_HEADER)
   MESSAGE(FATAL_ERROR "Failed to find 3DCamera.hpp from SDK root. Check REVOPOINT3DSDK_ROOT.")
 ENDIF()
@@ -26,7 +26,7 @@ GET_FILENAME_COMPONENT(REVOPOINT3DSDK_INCLUDE_DIR "${3D_CAM_HEADER}" DIRECTORY)
 # Find libraries
 STRING(TOLOWER ${CMAKE_SYSTEM_NAME} _revopoint3d_libs_subdir)
 FOREACH(_lib ${_revopoint3d_libs})
-  FIND_LIBRARY(_libpath ${_lib} PATHS ${REVOPOINT3DSDK_ROOT} PATH_SUFFIXES "lib/${_revopoint3d_libs_subdir}")
+  FIND_LIBRARY(_libpath ${_lib} PATHS ${REVOPOINT3DSDK_ROOT} PATH_SUFFIXES "lib/${_revopoint3d_libs_subdir}" "lib")
   IF(NOT _libpath)
     MESSAGE(FATAL_ERROR "Failed to find ${_lib} library from SDK root. Check REVOPOINT3DSDK_ROOT.")
   ENDIF()
@@ -35,7 +35,7 @@ ENDFOREACH()
 
 # Find binaries
 FOREACH(_rtlib ${_revopoint3d_libs})
-  FIND_FILE(_rtlibpath ${CMAKE_SHARED_LIBRARY_PREFIX}${_rtlib}${CMAKE_SHARED_LIBRARY_SUFFIX} PATHS ${REVOPOINT3DSDK_ROOT} PATH_SUFFIXES "lib/${_revopoint3d_libs_subdir}")
+  FIND_FILE(_rtlibpath ${CMAKE_SHARED_LIBRARY_PREFIX}${_rtlib}${CMAKE_SHARED_LIBRARY_SUFFIX} PATHS ${REVOPOINT3DSDK_ROOT} PATH_SUFFIXES "lib/${_revopoint3d_libs_subdir}" "lib")
   IF(NOT _rtlibpath)
     MESSAGE(FATAL_ERROR "Failed to find ${_rtlib}${CMAKE_SHARED_LIBRARY_SUFFIX} runtime library from SDK root. Check REVOPOINT3DSDK_ROOT.")
   ENDIF()
